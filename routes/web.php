@@ -18,5 +18,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::post('/add', [App\Http\Controllers\PostController::class, 'store']);
 Route::get('/', [App\Http\Controllers\PostController::class, 'index']);
+Route::get('/show/{id}', [App\Http\Controllers\PostController::class, 'show']);
+Route::get('/edit/{id}', [App\Http\Controllers\PostController::class, 'edit']);
+Route::get('/delete/{id}', [App\Http\Controllers\PostController::class, 'destroy']);
+Route::post('/update/{id}', [App\Http\Controllers\PostController::class, 'update']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

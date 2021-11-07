@@ -7,7 +7,7 @@
     <div class="container row">
         @foreach($posts as $post)  
         <div class="col s12 m3">
-            <a href="javascript:void(0);"  class="music_poster" >
+            <a href="/show/{{$post->id}}"  class="music_poster" >
                 <img src={{ asset("uploads/$post->image") }} alt="" 
                  width="100%" style="min-height: 250px" 
                 />
