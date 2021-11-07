@@ -73,7 +73,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+       // $post =DB::table('posts')->where('id', $id)->get();
+        $post = Post::find($id);
+        return View('pages.show')->with('post', $post);
     }
 
     /**
@@ -84,7 +86,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return View('pages.edit')->with('post', $post);
     }
 
     /**
@@ -96,7 +99,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string|min:3|max:100',
+            'content' => 'required|string|min:5|max:500',
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
+        ]);
+
+        if($request->hasFile('image')){
+            $post = Post::find($id);
+
+            $img = time()."_".$request->file('image')->getClientOriginalName();
+            $request->image->move(public_path('uploads'), $img);
+
+            $post->title = $request->title;
+            $post->content = $request->content;
+            $post->image = $img;
+
+
+            if($post->save()){
+                return back()
+                ->with('success','Post has been updated!');
+               
+            }
+
+        }
+
+
     }
 
     /**
@@ -107,6 +135,13 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::Find($id);
+        
+        if($post->delete()){
+            return View('home')
+            ->with('success','Post has been updated!');
+           
+        }
+    
     }
 }
